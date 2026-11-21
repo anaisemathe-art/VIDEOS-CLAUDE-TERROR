@@ -66,3 +66,9 @@ CIERRE / CTA:
 - Resultado: consultar `GET /v1/history/{id}` hasta `status=completed`; el MP3 está en `result.audio_url`. Saldo: `GET /v1/auth/me`.
 - Voz del usuario: `ojGau167OE7nUATM1xDa` con `provider=elevenlabs`, `model_id=eleven_v3`, `language_code=es`, `voice_settings.stability=0.5` (probada OK el 2026-11-21: ~3 s de audio, 43 créditos por 45 caracteres aprox.). El ID antiguo `7477926365174436369` no funcionó (MiniMax: no encontrada; CapCut: mantenimiento; ElevenLabs: se quedó colgada).
 - Redactar la narración para locución: frases cortas, sin siglas ni símbolos, números en palabras.
+
+## Escenarios (preferencia del usuario, 2026-11-21)
+- Nada de fondos blancos o planos: se ven poco profesionales.
+- El lugar cambia según el tema del vídeo (cocina para comida, dormitorio para sueño, baño, oficina, gimnasio…).
+- Siempre con detalle y profundidad: muebles, objetos, ventana, plantas; iluminación cálida, sombras suaves, desenfoque de fondo (profundidad de campo) en primeros planos.
+- Personaje principal: el avatar 3D del usuario (pendiente de recibir el archivo .glb/.fbx/.obj).

@@ -64,5 +64,5 @@ CIERRE / CTA:
 - API: `https://api.vibi.pro` (cabecera `xi-api-key`; la clave NO va en el repo, la inyecta el proxy del entorno).
 - Texto a voz: `POST /v1/text-to-speech/{voice_id}` con `{"text","provider","language_code","model_id"?,"voice_settings"?}` → devuelve `{id,status:"pending"}`.
 - Resultado: consultar `GET /v1/history/{id}` hasta `status=completed`; el MP3 está en `result.audio_url`. Saldo: `GET /v1/auth/me`.
-- Voice ID del usuario: `7477926365174436369`. Estado de la prueba (2026-11-21): con `provider=minimax` da "official voice not found"; con `capcut` el proveedor está en mantenimiento; con `elevenlabs` la tarea se queda en `processing` con progreso 0. Lo más probable es que sea una voz de CapCut: reintentar con `provider=capcut` cuando salga de mantenimiento (docs: `capcut-voices/list-system-voices`).
+- Voz del usuario: `ojGau167OE7nUATM1xDa` con `provider=elevenlabs`, `model_id=eleven_v3`, `language_code=es`, `voice_settings.stability=0.5` (probada OK el 2026-11-21: ~3 s de audio, 43 créditos por 45 caracteres aprox.). El ID antiguo `7477926365174436369` no funcionó (MiniMax: no encontrada; CapCut: mantenimiento; ElevenLabs: se quedó colgada).
 - Redactar la narración para locución: frases cortas, sin siglas ni símbolos, números en palabras.

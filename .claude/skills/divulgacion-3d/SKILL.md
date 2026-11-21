@@ -61,7 +61,8 @@ CIERRE / CTA:
 - Transiciones por zoom/desenfoque entre plano exterior e interior; cámara cenital o lateral según la escena.
 
 ## Voz en off
-- Proveedor: `https://api.vibi.pro`, cabecera `xi-api-key` (la clave NO va en el repositorio; la inyecta el proxy del entorno).
-- Voice ID: `7477926365174436369`.
-- Pendiente: confirmar el endpoint exacto de generación de audio (texto → voz).
+- API: `https://api.vibi.pro` (cabecera `xi-api-key`; la clave NO va en el repo, la inyecta el proxy del entorno).
+- Texto a voz: `POST /v1/text-to-speech/{voice_id}` con `{"text","provider","language_code","model_id"?,"voice_settings"?}` → devuelve `{id,status:"pending"}`.
+- Resultado: consultar `GET /v1/history/{id}` hasta `status=completed`; el MP3 está en `result.audio_url`. Saldo: `GET /v1/auth/me`.
+- Voice ID del usuario: `7477926365174436369`. Estado de la prueba (2026-11-21): con `provider=minimax` da "official voice not found"; con `capcut` el proveedor está en mantenimiento; con `elevenlabs` la tarea se queda en `processing` con progreso 0. Lo más probable es que sea una voz de CapCut: reintentar con `provider=capcut` cuando salga de mantenimiento (docs: `capcut-voices/list-system-voices`).
 - Redactar la narración para locución: frases cortas, sin siglas ni símbolos, números en palabras.

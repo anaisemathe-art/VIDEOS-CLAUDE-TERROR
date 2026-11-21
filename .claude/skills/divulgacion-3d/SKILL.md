@@ -5,10 +5,10 @@ description: Crea guiones, shot lists, subtítulos y prompts para vídeos vertic
 
 # divulgacion-3d
 
-Guía de estilo basada en un vídeo de referencia de TikTok (cuenta de divulgación de salud, 90 s, 9:16). Las ideas y temas los pone el usuario; esta skill aplica el formato.
+Guía de estilo basada en 3 vídeos de referencia de TikTok (divulgación de salud: dolor menstrual, posturas al dormir, mareo al levantarse; 90-120 s, 9:16). Las ideas y temas los pone el usuario; esta skill aplica el formato.
 
 ## Formato
-- Vertical 9:16, 60-90 s, ritmo rápido (cambio de plano cada 2-4 s).
+- Vertical 9:16, 90-120 s (los 3 referentes duran 90, 94 y 118 s), ritmo rápido (cambio de plano cada 2-4 s).
 - Narración continua en español, tono cercano y divulgativo, segunda persona.
 - Una sola idea central; cada plano explica una pieza.
 
@@ -47,3 +47,15 @@ DURACIÓN:
 PROMPTS VISUALES (uno por plano):
 CIERRE / CTA:
 ```
+
+## Patrones confirmados en los 3 vídeos
+- **Tema = pregunta cotidiana de salud** ("¿cuál es la postura correcta?", "¿por qué me mareo al levantarme?") respondida mostrando el interior del cuerpo.
+- **Mismo mundo 3D en todos:** dormitorio/casa low-poly con colores azul-lila-crema, personaje sin rasgos detallados (cambia de ropa/género según el vídeo), cuerpo con transparencia para ver órganos.
+- **Órganos con personalidad:** el cerebro con ojos cartoon; flechas, medidores y barras de nivel (presión, sangre, oxígeno), cronómetros y termómetros para mostrar cambios.
+- **Estructura por lista o pasos:** casos comparados (boca abajo / boca arriba / lado derecho / lado izquierdo) o "PASO 1, PASO 2"; cada uno con rótulo amarillo y veredicto.
+- **Veredicto visual:** ✕ rojo = mal, ✓ verde = bien; rótulos rojos para lo negativo ("LA PEOR", "MENOS SANGRE"), amarillos para términos clave.
+- **Analogías cotidianas:** ej. manguera para el flujo de sangre, estrellitas para el mareo.
+- **Término técnico** aparece una vez en rótulo (ej. "HIPOTENSIÓN ORTOSTÁTICA") tras explicarlo en simple.
+- **Solución práctica** al final del cuerpo (qué hacer) antes del cierre.
+- **Cierre fijo:** mascota con casco amarillo + burbuja de chat "..." (llamada a comentar) y pantalla final de TikTok con el usuario.
+- Transiciones por zoom/desenfoque entre plano exterior e interior; cámara cenital o lateral según la escena.

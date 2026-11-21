@@ -59,3 +59,9 @@ CIERRE / CTA:
 - **Solución práctica** al final del cuerpo (qué hacer) antes del cierre.
 - **Cierre fijo:** mascota con casco amarillo + burbuja de chat "..." (llamada a comentar) y pantalla final de TikTok con el usuario.
 - Transiciones por zoom/desenfoque entre plano exterior e interior; cámara cenital o lateral según la escena.
+
+## Voz en off
+- Proveedor: `https://api.vibi.pro`, cabecera `xi-api-key` (la clave NO va en el repositorio; la inyecta el proxy del entorno).
+- Voice ID: `7477926365174436369`.
+- Pendiente: confirmar el endpoint exacto de generación de audio (texto → voz).
+- Redactar la narración para locución: frases cortas, sin siglas ni símbolos, números en palabras.

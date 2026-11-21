@@ -6,10 +6,11 @@ FONT="/usr/share/fonts/opentype/inter/InterDisplay-Black.otf"
 BG=Image.open("bg_back.png"); BGB=Image.open("bg_back_blur.png"); FG=Image.open("bg_fore.png")
 WW,WH=BG.size
 import json, functools
-LIB="../lib"; META=json.load(open(LIB+"/meta.json"))
+META=json.load(open("../lib2/meta.json"))
 @functools.lru_cache(maxsize=48)
 def libframe(name,i):
-    return Image.open(f"{LIB}/{name}/{i+1:03d}.webp").convert("RGBA")
+    return Image.open(f"../{META[name]['dir']}/{name}/{i+1:03d}.webp").convert("RGBA")
+E2H=560; HEMY=2230-1.05*E2H
 EMO=ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf",109)
 ENV=np.load("env.npy")
 def env(t):
@@ -76,7 +77,7 @@ def clip(t,t0,name,a,b,mode="pp",fps=24):
     else:
         p=2*n; i=i%p; i=i if i<=n else p-i
     return name,a+i
-TL=[(0.0,1.2,"giro",0,76,"once"),(1.2,2.75,"senalar",30,66,"once"),(2.75,5.25,"senalar",78,114,"pp"),
+TL=[(0.0,1.2,"giro",0,76,"once"),(1.2,2.75,"senalar",30,66,"once"),(2.75,5.25,"hablar",48,92,"pp"),
     (5.25,7.0,"sorpresa",48,90,"once"),(7.0,9.6,"pensar",30,72,"pp"),(9.6,11.5,"pensar",76,100,"once"),
     (11.5,13.6,"reir",48,96,"once"),(13.6,99,"reir",96,112,"pp")]
 def char_sprite(t):
@@ -132,6 +133,14 @@ def subtitles(img,t):
         img.paste(im,(int(OW/2-im.width/2),int(OH*0.74-im.height/2)),im)
 def frame(t):
     (cx,cy,z,rot),t0=camera(t)
+    (nm0,fi0),_=char_sprite(t); m0=META[nm0]; sp0=libframe(nm0,fi0)
+    _ws=E2H/m0["e2h"]; _bot=HEMY-m0["hem"]*_ws+sp0.height*_ws
+    if _bot<2190:
+        lim=_bot-30
+        z=max(z, WW*(OH/OW)/lim*1.02)
+        _vh=(WW/z)*OH/OW
+        if cy+_vh/2>lim: cy=lim-_vh/2
+        cy=max(cy,_vh/2)
     blur=z>2.0
     img=layer_crop(BGB if blur else BG,cx,cy,z,0.85).convert("RGBA")
     if 1.4<z<=2.0:
@@ -139,23 +148,29 @@ def frame(t):
     # character
     (nm,fi),ps=char_sprite(t)
     spr=libframe(nm,fi); m=META[nm]
-    sc=1600/m["h"]
+    sc=E2H/m["e2h"]
     talk=env(t)
     breath=1+0.008*math.sin(t*2.4)+0.01*talk
     pop=1.0
     if ps is not None and t-ps<0.3: pop=0.95+0.05*bounce(t-ps)
     sway=math.sin(t*1.6)*1.2+(math.sin(t*9)*0.8*talk)
-    feet=(720,2230)
-    (sx,sy),s=to_screen(*feet,cx,cy,z)
-    w=int(spr.width*sc*s*pop); h=int(spr.height*sc*s*pop*breath); foot=(spr.height-m['feet'])*sc*s*pop*breath
-    # shadow
-    sh=Image.new("RGBA",(OW,OH),(0,0,0,0)); sd=ImageDraw.Draw(sh)
-    sd.ellipse((sx-w*0.32,sy-30*s,sx+w*0.32,sy+30*s),fill=(60,30,20,110))
-    img=Image.alpha_composite(img,sh.filter(ImageFilter.GaussianBlur(max(1,12*s))))
+    # world placement: hem row -> HEMY, torso center -> x 720
+    wscale=sc*pop
+    top_w=HEMY-m["hem"]*wscale*breath; bot_w=top_w+spr.height*wscale*breath
+    left_w=720-m["cx"]*wscale
+    # keep cut legs out of frame: clamp camera so view bottom <= sprite bottom
+    (sx,sy),s=to_screen(left_w,top_w,cx,cy,z)
+    w=int(spr.width*wscale*s); h=int(spr.height*wscale*s*breath)
+    # shadow only when feet visible
+    if bot_w>=2190:
+        (fx,fy),_=to_screen(720,2230,cx,cy,z)
+        sh=Image.new("RGBA",(OW,OH),(0,0,0,0)); sd=ImageDraw.Draw(sh)
+        sd.ellipse((fx-w*0.32,fy-30*s,fx+w*0.32,fy+30*s),fill=(60,30,20,110))
+        img=Image.alpha_composite(img,sh.filter(ImageFilter.GaussianBlur(max(1,12*s))))
     if w>2 and h>2:
         im=spr.resize((w,h),Image.LANCZOS).rotate(sway,expand=True,resample=Image.BICUBIC,center=(w/2,h))
-        bob=-abs(math.sin(t*7))*14*s*talk
-        img.paste(im,(int(sx-im.width/2),int(sy-im.height+foot+bob)),im)
+        bob=-abs(math.sin(t*7))*10*s*talk
+        img.paste(im,(int(sx-(im.width-w)/2),int(sy-(im.height-h)+bob)),im)
     # hearts / graphics in world
     d=ImageDraw.Draw(img)
     def emoji(ch,wx,wy,size,t0,t1,wob=6,screen=False):
